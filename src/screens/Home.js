@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 30,
   },
   searchIcon: {
     width: 26,
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     position: 'absolute',
     top: 30,
-    left: 10,
+    left: 16,
     color: 'white',
     fontWeight: '700',
   },
