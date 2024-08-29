@@ -75,7 +75,6 @@ const renderItem = ({item, index}) => (
         start={{x: 0, y: 0}}
         end={{x: 0, y: 1}}
         colors={[COLORS.transparent, COLORS.black]}
-        // colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.9)']} // Transparent to Black
         style={{
           height: 200,
           justifyContent: 'flex-end',
@@ -86,7 +85,7 @@ const renderItem = ({item, index}) => (
             fontSize: 32,
             fontWeight: 'bold',
             color: 'white',
-            lineHeight: 45,
+            lineHeight: 40,
           }}>
           {item.slogan}
         </Text>
@@ -110,45 +109,35 @@ const RecipeCarousel = () => {
         inactiveSlideOpacity={1}
         inactiveSlideScale={1}
       />
-
       {/* Details */}
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Button</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  slide: {
-    width: deviceWidth,
-    height: deviceHeight,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover',
+  buttonContainer: {
     position: 'absolute',
-  },
-  overlay: {
-    position: 'absolute',
-    left: 20,
-    bottom: 40,
-  },
-  slogan: {
-    color: 'white',
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
+    bottom: 0,
+    height: 50,
+    width: '90%',
+    margin: 20,
   },
   button: {
     backgroundColor: '#FF6347',
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 5,
+    borderRadius: 10,
   },
   buttonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 
