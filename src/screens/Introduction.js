@@ -13,7 +13,6 @@ import {
 import {deviceHeight, deviceWidth} from '../components/Dimensions';
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel from 'react-native-snap-carousel';
-import {ViewPropTypes} from 'deprecated-react-native-prop-types';
 import {COLORS, SIZES} from '../components/colors';
 import {useNavigation} from '@react-navigation/native';
 

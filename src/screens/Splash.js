@@ -2,6 +2,7 @@ import {StyleSheet, Image, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {deviceHeight, deviceWidth} from '../components/Dimensions';
 import {useNavigation} from '@react-navigation/native';
+import * as Animatable from 'react-native-animatable';
 
 const Splash = () => {
   const navigation = useNavigation();
@@ -13,7 +14,11 @@ const Splash = () => {
   });
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require('../images/splash.png')} />
+      <Animatable.Image
+        animation="zoomInUp"
+        style={styles.logo}
+        source={require('../images/splash.png')}
+      />
     </View>
   );
 };
