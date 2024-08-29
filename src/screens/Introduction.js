@@ -15,6 +15,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Carousel from 'react-native-snap-carousel';
 import {ViewPropTypes} from 'deprecated-react-native-prop-types';
 import {COLORS, SIZES} from '../components/colors';
+import {useNavigation} from '@react-navigation/native';
 
 const carouselData = [
   {
@@ -95,6 +96,8 @@ const renderItem = ({item, index}) => (
 );
 
 const RecipeCarousel = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={{flex: 1, backgroundColor: 'black'}}>
       <StatusBar barStyle="light-content" />
@@ -111,8 +114,16 @@ const RecipeCarousel = () => {
       />
       {/* Details */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Button</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Home')}>
+          <LinearGradient
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 0}}
+            style={styles.button}
+            colors={[COLORS.darkGreen, COLORS.lime]}>
+            <Text style={styles.buttonText}>Get Started</Text>
+          </LinearGradient>
         </TouchableOpacity>
       </View>
     </View>
@@ -123,15 +134,15 @@ const styles = StyleSheet.create({
   buttonContainer: {
     position: 'absolute',
     bottom: 0,
-    height: 50,
+
     width: '90%',
     margin: 20,
   },
   button: {
-    backgroundColor: '#FF6347',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
+    marginBottom: 6,
   },
   buttonText: {
     color: 'white',
