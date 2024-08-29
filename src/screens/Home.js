@@ -5,10 +5,12 @@ import {
   Image,
   StatusBar,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import React from 'react';
 import {deviceWidth} from '../components/Dimensions';
 import {COLORS} from '../components/colors';
+import {MEAL_FILTERS} from '../Data/data';
 
 const Home = () => {
   return (
@@ -33,6 +35,24 @@ const Home = () => {
           </Text>
         </View>
       </View>
+      <Text style={styles.headerCategory}>Categories</Text>
+      <View style={styles.categories}>
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={MEAL_FILTERS}
+          renderItem={({item, index}) => {
+            return (
+              <TouchableOpacity style={styles.cardItems} activeOpacity={0.6}>
+                <View style={styles.cards}>
+                  <Image style={styles.cardIcons} source={item.icon} />
+                </View>
+                <Text style={styles.titleCategory}>{item.title}</Text>
+              </TouchableOpacity>
+            );
+          }}
+        />
+      </View>
     </View>
   );
 };
@@ -45,7 +65,7 @@ const styles = StyleSheet.create({
   },
   topView: {
     width: deviceWidth,
-    height: '40%',
+    height: '32%',
   },
   banner: {
     width: '100%',
@@ -67,7 +87,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 30,
+    marginTop: 70,
   },
   searchIcon: {
     width: 26,
@@ -94,5 +114,43 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '600',
     marginTop: 8,
+  },
+  headerCategory: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginTop: 20,
+    marginLeft: 20,
+    color: 'black',
+  },
+  cardItems: {
+    height: 140,
+    width: 120,
+    margin: 10,
+    marginHorizontal: -2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 2,
+  },
+  cards: {
+    height: '70%',
+    width: '80%',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    shadowColor: 'rgba(0,0,0,0.6)',
+    shadowOffset: 16,
+    elevation: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cardIcons: {
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  titleCategory: {
+    fontSize: 14,
+    color: 'black',
+    fontWeight: '600',
   },
 });
