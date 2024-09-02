@@ -7,12 +7,35 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {deviceWidth} from '../components/Dimensions';
 import {COLORS} from '../components/colors';
 import {MEAL_FILTERS} from '../Data/data';
+import {APP_ID, APP_KEY} from '../API/API';
 
 const Home = () => {
+  const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchRecipes();
+  }, []);
+
+  const fetchRecipes = async () => {
+    try {
+      const response = await fetch(
+        `https://api.edamam.com/api/recipes/v2?type=public&q=food&app_id=${APP_ID}&app_key=${APP_KEY}`,
+      );
+      const data = await response.json();
+      console.log(data.hits);
+      setRecipes(data.hits);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle={'light-content'} />
@@ -53,6 +76,22 @@ const Home = () => {
           }}
         />
       </View>
+      <Text style={styles.headerTrendingRecipes}>Trending Recipes</Text>
+      <FlatList
+        data={recipes}
+        contentContainerStyle={{marginTop: 20}}
+        horizontal
+        keyExtractor={item => item.recipe.uri}
+        renderItem={({item}) => (
+          <TouchableOpacity style={styles.cartItems}>
+            <Image
+              style={styles.recipeImage}
+              source={{uri: item.recipe.image}}
+            />
+            <Text style={styles.recipeTitle}>{item.recipe.label}</Text>
+          </TouchableOpacity>
+        )}
+      />
     </View>
   );
 };
@@ -152,5 +191,38 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'black',
     fontWeight: '600',
+  },
+  recipeCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    marginVertical: 5,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    elevation: 3,
+    marginHorizontal: 10,
+  },
+  recipeImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 10,
+  },
+  recipeTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginLeft: 10,
+    color: 'black',
+  },
+  cartItems: {
+    width: 150,
+    height: 150,
+    marginLeft: 20,
+    borderRadius: 10,
+  },
+  headerTrendingRecipes: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginLeft: 20,
+    color: 'black',
   },
 });
