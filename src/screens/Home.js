@@ -14,6 +14,7 @@ import {MEAL_FILTERS} from '../Data/data';
 import {APP_ID, APP_KEY} from '../API/API';
 import Loader from '../components/Loader';
 import {useNavigation} from '@react-navigation/native';
+import * as Animatable from 'react-native-animatable';
 
 const Home = () => {
   const [recipes, setRecipes] = useState([]);

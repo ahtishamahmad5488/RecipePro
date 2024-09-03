@@ -20,7 +20,7 @@ const Details = () => {
         style={styles.banner}
       />
       <TouchableOpacity
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => navigation.goBack()}
         style={styles.backBtn}>
         <Image
           style={styles.arrowBack}
@@ -29,8 +29,30 @@ const Details = () => {
       </TouchableOpacity>
       <Text style={styles.titleItem}>{route.params.data.recipe.label}</Text>
       <Text style={styles.source}>
-        {'added by: ' + route.params.data.recipe.source}
+        {'Added By: '}
+        <Text style={{color: '#05B681'}}>
+          {route.params.data.recipe.source}
+        </Text>
       </Text>
+      <Text style={styles.calories}>
+        {'Calories: '}
+        <Text style={{color: 'orange'}}>
+          {route.params.data.recipe.calories}
+        </Text>
+      </Text>
+      <Text style={styles.calories}>
+        {'Total Weight: '}
+        <Text style={{color: 'orange'}}>
+          {route.params.data.recipe.totalWeight}
+        </Text>
+      </Text>
+      <Text style={styles.calories}>
+        {'Meal Type: '}
+        <Text style={{color: '#05B681'}}>
+          {route.params.data.recipe.mealType}
+        </Text>
+      </Text>
+
       <View>
         <FlatList
           horizontal
@@ -41,7 +63,6 @@ const Details = () => {
             'Cautions',
             'Ingredients',
             'Diet',
-            'Meal Type',
             'Cuisines',
             'Dish Type',
           ]}
@@ -53,6 +74,7 @@ const Details = () => {
                   styles.typeItems,
                   {
                     borderWidth: selectedTab == index ? 0 : 0.5,
+                    marginLeft: index == 0 ? 16 : 10,
                     borderColor: '#9e9e9e',
                     backgroundColor: selectedTab == index ? '#05B681' : 'white',
                   },
@@ -72,15 +94,20 @@ const Details = () => {
             : selectedTab == 1
             ? route.params.data.recipe.cautions
             : selectedTab == 2
-            ? route.params.data.recipe.ingredientsLine
+            ? route.params.data.recipe.ingredientLines
             : selectedTab == 3
             ? route.params.data.recipe.dietLabels
             : selectedTab == 4
-            ? route.params.data.recipe.mealType
-            : selectedTab == 5
-            ? route.params.data.recipe.cuisneType
-            : null
+            ? route.params.data.recipe.cuisineType
+            : route.params.data.recipe.dishType
         }
+        renderItem={({item, index}) => {
+          return (
+            <View style={styles.labels}>
+              <Text style={styles.headerItem}>{item}</Text>
+            </View>
+          );
+        }}
       />
     </View>
   );
@@ -122,6 +149,8 @@ const styles = StyleSheet.create({
   },
   source: {
     marginLeft: 20,
+    fontSize: 16,
+    fontWeight: '500',
     color: 'black',
     marginTop: 10,
   },
@@ -133,5 +162,25 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     borderRadius: 8,
   },
-  headerItem: {},
+  headerItem: {
+    color: 'black',
+  },
+  labels: {
+    width: '90%',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    height: 50,
+    borderWidth: 0.5,
+    marginTop: 10,
+    borderColor: '#9e9e9e',
+    paddingLeft: 10,
+    borderRadius: 10,
+  },
+  calories: {
+    color: 'black',
+    fontSize: 20,
+    fontWeight: '500',
+    marginTop: 10,
+    marginLeft: 20,
+  },
 });
