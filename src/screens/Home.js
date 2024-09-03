@@ -13,10 +13,12 @@ import {COLORS} from '../components/colors';
 import {MEAL_FILTERS} from '../Data/data';
 import {APP_ID, APP_KEY} from '../API/API';
 import Loader from '../components/Loader';
+import {useNavigation} from '@react-navigation/native';
 
 const Home = () => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigation = useNavigation();
 
   useEffect(() => {
     fetchRecipes();
@@ -85,7 +87,9 @@ const Home = () => {
         horizontal
         keyExtractor={item => item.recipe.uri}
         renderItem={({item}) => (
-          <TouchableOpacity style={styles.cartItems}>
+          <TouchableOpacity
+            style={styles.cartItems}
+            onPress={() => navigation.navigate('Details', {data: item})}>
             <Image
               style={styles.recipeImage}
               source={{uri: item.recipe.image}}
@@ -109,7 +113,7 @@ const styles = StyleSheet.create({
   },
   topView: {
     width: deviceWidth,
-    height: '32%',
+    height: '34%',
   },
   banner: {
     width: '100%',
