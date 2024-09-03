@@ -12,6 +12,7 @@ import {deviceWidth} from '../components/Dimensions';
 import {COLORS} from '../components/colors';
 import {MEAL_FILTERS} from '../Data/data';
 import {APP_ID, APP_KEY} from '../API/API';
+import Loader from '../components/Loader';
 
 const Home = () => {
   const [recipes, setRecipes] = useState([]);
@@ -79,7 +80,8 @@ const Home = () => {
       <Text style={styles.headerTrendingRecipes}>Trending Recipes</Text>
       <FlatList
         data={recipes}
-        contentContainerStyle={{marginTop: 20}}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{marginTop: 16}}
         horizontal
         keyExtractor={item => item.recipe.uri}
         renderItem={({item}) => (
@@ -88,10 +90,13 @@ const Home = () => {
               style={styles.recipeImage}
               source={{uri: item.recipe.image}}
             />
-            <Text style={styles.recipeTitle}>{item.recipe.label}</Text>
+            <View style={[styles.transparentView, {borderRadius: 20}]}>
+              <Text style={styles.recipeTitle}>{item.recipe.label}</Text>
+            </View>
           </TouchableOpacity>
         )}
       />
+      {loading && <Loader />}
     </View>
   );
 };
@@ -113,7 +118,7 @@ const styles = StyleSheet.create({
   transparentView: {
     width: '100%',
     height: '100%',
-    backgroundColor: 'rgba(0,0,0,0.4)',
+    backgroundColor: 'rgba(0,0,0,0.5)',
     position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
@@ -205,22 +210,23 @@ const styles = StyleSheet.create({
   recipeImage: {
     width: '100%',
     height: '100%',
-    borderRadius: 10,
+    borderRadius: 16,
   },
   recipeTitle: {
     fontSize: 16,
     fontWeight: '600',
-    marginLeft: 10,
-    color: 'black',
+    width: '90%',
+    color: 'white',
   },
   cartItems: {
-    width: 150,
-    height: 150,
-    marginLeft: 20,
+    width: 160,
+    height: 230,
+    marginLeft: 10,
+    marginRight: 10,
     borderRadius: 10,
   },
   headerTrendingRecipes: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: '600',
     marginLeft: 20,
     color: 'black',
