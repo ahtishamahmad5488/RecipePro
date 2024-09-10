@@ -16,6 +16,8 @@ import Loader from '../components/Loader';
 import {useNavigation} from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
 
+const AnimatedBtn = Animatable.createAnimatableComponent(TouchableOpacity);
+
 const Home = () => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -44,25 +46,33 @@ const Home = () => {
     <View style={styles.container}>
       <StatusBar barStyle={'light-content'} />
       <View style={styles.topView}>
-        <Image
+        <Animatable.Image
+          animation={'slideInUp'}
           style={styles.banner}
           source={require('../images/home/home.jpg')}
         />
         <View style={styles.transparentView}>
-          <Text style={styles.titleHeading}>RecipePro</Text>
-          <TouchableOpacity activeOpacity={0.8} style={styles.searchBox}>
+          <Animatable.Text animation={'slideInUp'} style={styles.titleHeading}>
+            RecipePro
+          </Animatable.Text>
+          <AnimatedBtn
+            animation={'slideInUp'}
+            activeOpacity={0.8}
+            style={styles.searchBox}>
             <Image
               style={styles.searchIcon}
               source={require('../images/home/search.png')}
             />
             <Text style={styles.placeholderText}>Search here.....</Text>
-          </TouchableOpacity>
-          <Text style={styles.tagLine}>
+          </AnimatedBtn>
+          <Animatable.Text animation={'slideInUp'} style={styles.tagLine}>
             Search 1000+ recipes easily with one click
-          </Text>
+          </Animatable.Text>
         </View>
       </View>
-      <Text style={styles.headerCategory}>Categories</Text>
+      <Animatable.Text animation={'slideInUp'} style={styles.headerCategory}>
+        Categories
+      </Animatable.Text>
       <View style={styles.categories}>
         <FlatList
           horizontal
@@ -70,17 +80,24 @@ const Home = () => {
           data={MEAL_FILTERS}
           renderItem={({item, index}) => {
             return (
-              <TouchableOpacity style={styles.cardItems} activeOpacity={0.6}>
+              <AnimatedBtn
+                animation={'slideInUp'}
+                style={styles.cardItems}
+                activeOpacity={0.6}>
                 <View style={styles.cards}>
                   <Image style={styles.cardIcons} source={item.icon} />
                 </View>
                 <Text style={styles.titleCategory}>{item.title}</Text>
-              </TouchableOpacity>
+              </AnimatedBtn>
             );
           }}
         />
       </View>
-      <Text style={styles.headerTrendingRecipes}>Trending Recipes</Text>
+      <Animatable.Text
+        animation={'slideInUp'}
+        style={styles.headerTrendingRecipes}>
+        Trending Recipes
+      </Animatable.Text>
       <FlatList
         data={recipes}
         showsHorizontalScrollIndicator={false}
@@ -88,7 +105,8 @@ const Home = () => {
         horizontal
         keyExtractor={item => item.recipe.uri}
         renderItem={({item}) => (
-          <TouchableOpacity
+          <AnimatedBtn
+            animation={'slideInUp'}
             style={styles.cartItems}
             onPress={() => navigation.navigate('Details', {data: item})}>
             <Image
@@ -98,7 +116,7 @@ const Home = () => {
             <View style={[styles.transparentView, {borderRadius: 20}]}>
               <Text style={styles.recipeTitle}>{item.recipe.label}</Text>
             </View>
-          </TouchableOpacity>
+          </AnimatedBtn>
         )}
       />
       {loading && <Loader />}

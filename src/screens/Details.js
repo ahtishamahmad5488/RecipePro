@@ -5,111 +5,127 @@ import {
   View,
   FlatList,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import * as Animatable from 'react-native-animatable';
+
+const AnimatedBtn = Animatable.createAnimatableComponent(TouchableOpacity);
 
 const Details = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const [selectedTab, setSelectedTab] = useState(0);
   return (
-    <View style={styles.container}>
-      <Image
-        source={{uri: route.params.data.recipe.image}}
-        style={styles.banner}
-      />
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={styles.backBtn}>
-        <Image
-          style={styles.arrowBack}
-          source={require('../images/home/arrowback.png')}
+    <ScrollView>
+      <View style={styles.container}>
+        <Animatable.Image
+          source={{uri: route.params.data.recipe.image}}
+          style={styles.banner}
+          animation={'slideInUp'}
         />
-      </TouchableOpacity>
-      <Text style={styles.titleItem}>{route.params.data.recipe.label}</Text>
-      <Text style={styles.source}>
-        {'Added By: '}
-        <Text style={{color: '#05B681'}}>
-          {route.params.data.recipe.source}
-        </Text>
-      </Text>
-      <Text style={styles.calories}>
-        {'Calories: '}
-        <Text style={{color: 'orange'}}>
-          {route.params.data.recipe.calories}
-        </Text>
-      </Text>
-      <Text style={styles.calories}>
-        {'Total Weight: '}
-        <Text style={{color: 'orange'}}>
-          {route.params.data.recipe.totalWeight}
-        </Text>
-      </Text>
-      <Text style={styles.calories}>
-        {'Meal Type: '}
-        <Text style={{color: '#05B681'}}>
-          {route.params.data.recipe.mealType}
-        </Text>
-      </Text>
+        <AnimatedBtn
+          animation={'slideInUp'}
+          onPress={() => navigation.goBack()}
+          style={styles.backBtn}>
+          <Image
+            style={styles.arrowBack}
+            source={require('../images/home/arrowback.png')}
+          />
+        </AnimatedBtn>
+        <Animatable.Text animation={'slideInUp'} style={styles.titleItem}>
+          {route.params.data.recipe.label}
+        </Animatable.Text>
+        <Animatable.Text animation={'slideInUp'} style={styles.source}>
+          {'Added By: '}
+          <Animatable.Text animation={'slideInUp'} style={{color: '#05B681'}}>
+            {route.params.data.recipe.source}
+          </Animatable.Text>
+        </Animatable.Text>
+        <Animatable.Text animation={'slideInUp'} style={styles.calories}>
+          {'Calories: '}
+          <Animatable.Text animation={'slideInUp'} style={{color: 'orange'}}>
+            {route.params.data.recipe.calories}
+          </Animatable.Text>
+        </Animatable.Text>
+        <Animatable.Text animation={'slideInUp'} style={styles.calories}>
+          {'Total Weight: '}
+          <Animatable.Text animation={'slideInUp'} style={{color: 'orange'}}>
+            {route.params.data.recipe.totalWeight}
+          </Animatable.Text>
+        </Animatable.Text>
+        <Animatable.Text animation={'slideInUp'} style={styles.calories}>
+          {'Meal Type: '}
+          <Animatable.Text animation={'slideInUp'} style={{color: '#05B681'}}>
+            {route.params.data.recipe.mealType}
+          </Animatable.Text>
+        </Animatable.Text>
 
-      <View>
+        <View>
+          <FlatList
+            horizontal
+            nestedScrollEnabled={true}
+            scrollEnabled={false}
+            contentContainerStyle={{marginTop: 20}}
+            showsHorizontalScrollIndicator={false}
+            data={[
+              'Health',
+              'Cautions',
+              'Ingredients',
+              'Diet',
+              'Cuisines',
+              'Dish Type',
+            ]}
+            renderItem={({item, index}) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => setSelectedTab(index)}
+                  style={[
+                    styles.typeItems,
+                    {
+                      borderWidth: selectedTab == index ? 0 : 0.5,
+                      marginLeft: index == 0 ? 16 : 10,
+                      borderColor: '#9e9e9e',
+                      backgroundColor:
+                        selectedTab == index ? '#05B681' : 'white',
+                    },
+                  ]}>
+                  <Text
+                    style={{color: selectedTab == index ? 'white' : 'black'}}>
+                    {item}
+                  </Text>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        </View>
         <FlatList
-          horizontal
-          contentContainerStyle={{marginTop: 20}}
-          showsHorizontalScrollIndicator={false}
-          data={[
-            'Health',
-            'Cautions',
-            'Ingredients',
-            'Diet',
-            'Cuisines',
-            'Dish Type',
-          ]}
+          nestedScrollEnabled={true}
+          scrollEnabled={false}
+          data={
+            selectedTab == 0
+              ? route.params.data.recipe.healthLabels
+              : selectedTab == 1
+              ? route.params.data.recipe.cautions
+              : selectedTab == 2
+              ? route.params.data.recipe.ingredientLines
+              : selectedTab == 3
+              ? route.params.data.recipe.dietLabels
+              : selectedTab == 4
+              ? route.params.data.recipe.cuisineType
+              : route.params.data.recipe.dishType
+          }
           renderItem={({item, index}) => {
             return (
-              <TouchableOpacity
-                onPress={() => setSelectedTab(index)}
-                style={[
-                  styles.typeItems,
-                  {
-                    borderWidth: selectedTab == index ? 0 : 0.5,
-                    marginLeft: index == 0 ? 16 : 10,
-                    borderColor: '#9e9e9e',
-                    backgroundColor: selectedTab == index ? '#05B681' : 'white',
-                  },
-                ]}>
-                <Text style={{color: selectedTab == index ? 'white' : 'black'}}>
-                  {item}
-                </Text>
-              </TouchableOpacity>
+              <Animatable.View animation={'slideInUp'} style={styles.labels}>
+                <Text style={styles.headerItem}>{item}</Text>
+              </Animatable.View>
             );
           }}
         />
       </View>
-      <FlatList
-        data={
-          selectedTab == 0
-            ? route.params.data.recipe.healthLabels
-            : selectedTab == 1
-            ? route.params.data.recipe.cautions
-            : selectedTab == 2
-            ? route.params.data.recipe.ingredientLines
-            : selectedTab == 3
-            ? route.params.data.recipe.dietLabels
-            : selectedTab == 4
-            ? route.params.data.recipe.cuisineType
-            : route.params.data.recipe.dishType
-        }
-        renderItem={({item, index}) => {
-          return (
-            <View style={styles.labels}>
-              <Text style={styles.headerItem}>{item}</Text>
-            </View>
-          );
-        }}
-      />
-    </View>
+    </ScrollView>
   );
 };
 
