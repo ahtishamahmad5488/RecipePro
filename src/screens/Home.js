@@ -56,6 +56,7 @@ const Home = () => {
             RecipePro
           </Animatable.Text>
           <AnimatedBtn
+            onPress={() => navigation.navigate('Search')}
             animation={'slideInUp'}
             activeOpacity={0.8}
             style={styles.searchBox}>
