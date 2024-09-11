@@ -67,7 +67,10 @@ const Search = () => {
           placeholder="Search Here....."
         />
         {search != '' && (
-          <TouchableOpacity onPress={() => setSearch('')}>
+          <TouchableOpacity
+            onPress={() => {
+              setSearch(''), setRecipes([]);
+            }}>
             <Image
               style={styles.close}
               source={require('../images/close.png')}
@@ -93,7 +96,11 @@ const Search = () => {
             onPress={() => navigation.navigate('Details', {data: item})}>
             <Image style={styles.itemImage} source={{uri: item.recipe.image}} />
             <View style={[styles.transparentView, {borderRadius: 20}]}>
-              <Text style={styles.itemLabel}>{item.recipe.label}</Text>
+              <Text style={styles.itemLabel}>
+                {item.recipe.label.length > 40
+                  ? item.recipe.label.substring(0, 40) + '...'
+                  : item.recipe.label}
+              </Text>
               <Text style={styles.itemSource}>{item.recipe.source}</Text>
             </View>
           </TouchableOpacity>
@@ -196,5 +203,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     marginLeft: 10,
     width: '60%',
+    marginTop: 4,
   },
 });

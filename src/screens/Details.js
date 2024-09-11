@@ -30,7 +30,7 @@ const Details = () => {
         style={styles.backBtn}>
         <Image
           style={styles.arrowBack}
-          source={require('../images/home/arrowback.png')}
+          source={require('../images/backArrow.png')}
         />
       </AnimatedBtn>
       <Animatable.Text animation={'slideInUp'} style={styles.titleItem}>
@@ -146,9 +146,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   arrowBack: {
-    width: 30,
-    height: 30,
-    left: 4,
+    width: 36,
+    height: 36,
+    right: 2,
   },
   titleItem: {
     color: 'black',
