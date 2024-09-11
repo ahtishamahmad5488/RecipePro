@@ -84,21 +84,19 @@ const Search = () => {
       )}
       <FlatList
         data={recipes}
-        contentContainerStyle={{marginTop: 16}}
+        // contentContainerStyle={{marginTop: 16}}
         keyExtractor={item => item.recipe.uri}
-        renderItem={({item}) => (
-          <AnimatedBtn
-            animation={'slideInUp'}
-            style={styles.cartItems}
+        showsVerticalScrollIndicator={false}
+        renderItem={({item, index}) => (
+          <TouchableOpacity
+            style={styles.recipeItems}
             onPress={() => navigation.navigate('Details', {data: item})}>
-            <Image
-              style={styles.recipeImage}
-              source={{uri: item.recipe.image}}
-            />
+            <Image style={styles.itemImage} source={{uri: item.recipe.image}} />
             <View style={[styles.transparentView, {borderRadius: 20}]}>
-              <Text style={styles.recipeTitle}>{item.recipe.label}</Text>
+              <Text style={styles.itemLabel}>{item.recipe.label}</Text>
+              <Text style={styles.itemSource}>{item.recipe.source}</Text>
             </View>
-          </AnimatedBtn>
+          </TouchableOpacity>
         )}
       />
       {/* {loading && <Loader />} */}
@@ -168,5 +166,35 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  recipeItems: {
+    width: '90%',
+    height: 100,
+    alignSelf: 'center',
+    backgroundColor: 'white',
+    marginTop: 10,
+    borderRadius: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  itemImage: {
+    width: 90,
+    height: 90,
+    borderRadius: 8,
+    marginLeft: 8,
+  },
+  itemLabel: {
+    fontSize: 20,
+    color: 'black',
+    fontWeight: '500',
+    marginLeft: 10,
+    width: '60%',
+  },
+  itemSource: {
+    fontSize: 16,
+    color: '#05B681',
+    fontWeight: '400',
+    marginLeft: 10,
+    width: '60%',
   },
 });
