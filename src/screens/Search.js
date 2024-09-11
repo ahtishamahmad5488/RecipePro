@@ -13,6 +13,12 @@ import {useNavigation} from '@react-navigation/native';
 import {APP_ID, APP_KEY} from '../API/API';
 import Loader from '../components/Loader';
 import Modal from 'react-native-modal';
+import {
+  CUISINE_FILTERS,
+  DIET_FILTERS,
+  DISH_FILTERS,
+  HEALTH_FILTERS,
+} from '../Data/data';
 
 const Search = () => {
   const [search, setSearch] = useState('');
@@ -20,6 +26,11 @@ const Search = () => {
   const [loading, setLoading] = useState(true);
   const [recipes, setRecipes] = useState([]);
   const [showModal, setShowModal] = useState(false);
+
+  const [selectedDish, setSelectedDish] = useState('');
+  const [selectedCuisines, setSelectedCuisines] = useState('');
+  const [selectedHealth, setSelectedHealth] = useState('');
+  const [selectedDiet, setSelectedDiet] = useState('');
 
   const searchRecipe = async () => {
     var myHeaders = new Headers();
@@ -135,6 +146,120 @@ const Search = () => {
             </TouchableOpacity>
           </View>
           <Text style={styles.heading}>Dish Type</Text>
+          <View>
+            <FlatList
+              data={DISH_FILTERS}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{marginTop: 10}}
+              horizontal
+              renderItem={({item, index}) => {
+                return (
+                  <TouchableOpacity
+                    style={[
+                      styles.filterItem,
+                      {
+                        backgroundColor:
+                          selectedDish == item ? '#05B681' : 'transparent',
+                      },
+                    ]}
+                    onPress={() => setSelectedDish(item)}>
+                    <Text
+                      style={{color: selectedDish == item ? 'white' : 'black'}}>
+                      {item}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              }}
+            />
+          </View>
+          <Text style={styles.heading}>Cuisines</Text>
+          <View>
+            <FlatList
+              data={CUISINE_FILTERS}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{marginTop: 10}}
+              horizontal
+              renderItem={({item, index}) => {
+                return (
+                  <TouchableOpacity
+                    style={[
+                      styles.filterItem,
+                      {
+                        backgroundColor:
+                          selectedCuisines == item ? '#05B681' : 'transparent',
+                      },
+                    ]}
+                    onPress={() => setSelectedCuisines(item)}>
+                    <Text
+                      style={{
+                        color: selectedCuisines == item ? 'white' : 'black',
+                      }}>
+                      {item}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              }}
+            />
+          </View>
+          <Text style={styles.heading}>Health</Text>
+          <View>
+            <FlatList
+              data={HEALTH_FILTERS}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{marginTop: 10}}
+              horizontal
+              renderItem={({item, index}) => {
+                return (
+                  <TouchableOpacity
+                    style={[
+                      styles.filterItem,
+                      {
+                        backgroundColor:
+                          selectedHealth == item ? '#05B681' : 'transparent',
+                      },
+                    ]}
+                    onPress={() => setSelectedHealth(item)}>
+                    <Text
+                      style={{
+                        color: selectedHealth == item ? 'white' : 'black',
+                      }}>
+                      {item}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              }}
+            />
+          </View>
+          <Text style={styles.heading}>Diet</Text>
+          <View>
+            <FlatList
+              data={DIET_FILTERS}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{marginTop: 10}}
+              horizontal
+              renderItem={({item, index}) => {
+                return (
+                  <TouchableOpacity
+                    style={[
+                      styles.filterItem,
+                      {
+                        backgroundColor:
+                          selectedDiet == item ? '#05B681' : 'transparent',
+                      },
+                    ]}
+                    onPress={() => setSelectedDiet(item)}>
+                    <Text
+                      style={{color: selectedDiet == item ? 'white' : 'black'}}>
+                      {item}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              }}
+            />
+          </View>
+          <TouchableOpacity style={styles.submitBtn}>
+            <Text style={styles.applyBtn}>{'Apply Filters'}</Text>
+          </TouchableOpacity>
         </View>
       </Modal>
       {/* {loading && <Loader />} */}
@@ -256,7 +381,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     width: '100%',
-    height: '50%',
+    paddingBottom: 30,
     backgroundColor: 'white',
     position: 'absolute',
     bottom: 0,
@@ -270,7 +395,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingLeft: 20,
     paddingRight: 20,
-    height: 60,
+    height: 50,
   },
   filtersTitle: {
     color: 'black',
@@ -278,9 +403,34 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   heading: {
-    fontSize: 22,
+    fontSize: 20,
     marginLeft: 20,
     fontWeight: '800',
     color: 'black',
+    marginTop: 6,
+  },
+  filterItem: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+    marginLeft: 15,
+    borderWidth: 0.6,
+    borderRadius: 10,
+  },
+  submitBtn: {
+    width: '90%',
+    height: 50,
+    backgroundColor: '#05B681',
+    alignSelf: 'center',
+    marginTop: 20,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  applyBtn: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '600',
   },
 });
