@@ -28,12 +28,22 @@ const Home = () => {
   }, []);
 
   const fetchRecipes = async () => {
+    var myHeaders = new Headers();
+    myHeaders.append('accept', 'application/json');
+    myHeaders.append('Accept-Language', 'en');
+
+    var requestOptions = {
+      method: 'Get',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+
     try {
       const response = await fetch(
         `https://api.edamam.com/api/recipes/v2?type=public&q=food&app_id=${APP_ID}&app_key=${APP_KEY}`,
+        requestOptions,
       );
       const data = await response.json();
-      console.log(data.hits);
       setRecipes(data.hits);
       setLoading(false);
     } catch (error) {
