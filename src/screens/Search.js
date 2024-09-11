@@ -12,12 +12,14 @@ import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {APP_ID, APP_KEY} from '../API/API';
 import Loader from '../components/Loader';
+import Modal from 'react-native-modal';
 
 const Search = () => {
   const [search, setSearch] = useState('');
   const navigation = useNavigation();
   const [loading, setLoading] = useState(true);
   const [recipes, setRecipes] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const searchRecipe = async () => {
     var myHeaders = new Headers();
@@ -106,6 +108,35 @@ const Search = () => {
           </TouchableOpacity>
         )}
       />
+      {recipes.length > 0 && (
+        <TouchableOpacity
+          onPress={() => setShowModal(true)}
+          style={styles.filterBtn}>
+          <Image
+            style={styles.filterIcon}
+            source={require('../images/filter.png')}
+          />
+        </TouchableOpacity>
+      )}
+      <Modal
+        onBackdropPress={() => setShowModal(false)}
+        onBackButtonPress={() => setShowModal(false)}
+        isVisible={showModal}
+        backdropColor="rgba(0,0,0,0.5)"
+        style={{margin: 0}}>
+        <View style={styles.modalView}>
+          <View style={styles.modalHeader}>
+            <Text style={styles.filtersTitle}>Filter's</Text>
+            <TouchableOpacity onPress={() => setShowModal(false)}>
+              <Image
+                style={styles.close}
+                source={require('../images/close.png')}
+              />
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.heading}>Dish Type</Text>
+        </View>
+      </Modal>
       {/* {loading && <Loader />} */}
     </View>
   );
@@ -204,5 +235,52 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     width: '60%',
     marginTop: 4,
+  },
+  filterBtn: {
+    width: 60,
+    height: 60,
+    backgroundColor: 'white',
+    shadowColor: 'rgba(0,0,0,0.9)',
+    shadowOpacity: 6,
+    elevation: 5,
+    position: 'absolute',
+    bottom: 50,
+    right: 20,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  filterIcon: {
+    width: 30,
+    height: 30,
+  },
+  modalView: {
+    width: '100%',
+    height: '50%',
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: 0,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  modalHeader: {
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingLeft: 20,
+    paddingRight: 20,
+    height: 60,
+  },
+  filtersTitle: {
+    color: 'black',
+    fontSize: 18,
+    fontWeight: '500',
+  },
+  heading: {
+    fontSize: 22,
+    marginLeft: 20,
+    fontWeight: '800',
+    color: 'black',
   },
 });
