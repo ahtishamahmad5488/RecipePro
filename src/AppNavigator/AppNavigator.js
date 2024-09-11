@@ -5,6 +5,7 @@ import Home from '../screens/Home';
 import Search from '../screens/Search';
 import Details from '../screens/Details';
 import Introduction from '../screens/Introduction';
+import RecipeByCategory from '../screens/RecipeByCategory';
 
 const Stack = createNativeStackNavigator();
 const AppNavigator = () => {
@@ -34,6 +35,11 @@ const AppNavigator = () => {
         <Stack.Screen
           name="Details"
           component={Details}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="RecipeByCategory"
+          component={RecipeByCategory}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

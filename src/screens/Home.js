@@ -92,6 +92,11 @@ const Home = () => {
           renderItem={({item, index}) => {
             return (
               <AnimatedBtn
+                onPress={() => {
+                  navigation.navigate('RecipeByCategory', {
+                    data: item.title,
+                  });
+                }}
                 animation={'slideInUp'}
                 style={styles.cardItems}
                 activeOpacity={0.6}>
