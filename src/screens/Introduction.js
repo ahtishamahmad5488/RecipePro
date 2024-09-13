@@ -1,16 +1,14 @@
-import React, {useRef, useState} from 'react';
+import React from 'react';
 import {
   View,
   Text,
-  Image,
   StyleSheet,
-  Dimensions,
   TouchableOpacity,
   StatusBar,
   ImageBackground,
 } from 'react-native';
 
-import {deviceHeight, deviceWidth} from '../components/Dimensions';
+import {deviceWidth} from '../components/Dimensions';
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel from 'react-native-snap-carousel';
 import {COLORS, SIZES} from '../components/colors';
@@ -19,7 +17,6 @@ import {useNavigation} from '@react-navigation/native';
 const carouselData = [
   {
     id: 1,
-
     image: require('../images/Intro/mainImg.png'),
     slogan: 'Cooking a Delicious Food Easily',
   },

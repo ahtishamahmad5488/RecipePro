@@ -5,7 +5,6 @@ import {
   View,
   FlatList,
   TouchableOpacity,
-  ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation, useRoute} from '@react-navigation/native';

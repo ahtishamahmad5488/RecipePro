@@ -5,7 +5,6 @@ import {
   View,
   StatusBar,
   Image,
-  TextInput,
   FlatList,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
@@ -14,7 +13,6 @@ import {APP_ID, APP_KEY} from '../API/API';
 import Loader from '../components/Loader';
 
 const RecipeByCategory = () => {
-  const [search, setSearch] = useState('');
   const navigation = useNavigation();
   const [loading, setLoading] = useState(true);
   const [recipes, setRecipes] = useState([]);
@@ -82,7 +80,7 @@ const RecipeByCategory = () => {
           </TouchableOpacity>
         )}
       />
-      {/* {loading && <Loader />} */}
+      {loading && <Loader />}
     </View>
   );
 };
