@@ -23,7 +23,7 @@ import {
 const Search = () => {
   const [search, setSearch] = useState('');
   const navigation = useNavigation();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [recipes, setRecipes] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
@@ -33,6 +33,7 @@ const Search = () => {
   const [selectedDiet, setSelectedDiet] = useState('');
 
   const searchRecipe = async () => {
+    setLoading(true);
     var myHeaders = new Headers();
     myHeaders.append('accept', 'application/json');
     myHeaders.append('Accept-Language', 'en');
@@ -42,12 +43,25 @@ const Search = () => {
       headers: myHeaders,
       redirect: 'follow',
     };
+    let url = '';
+
+    if (
+      selectedDiet == '' &&
+      selectedCuisines == '' &&
+      selectedDish == '' &&
+      selectedHealth == ''
+    ) {
+      url = `https://api.edamam.com/api/recipes/v2?type=public&q=${search}&app_id=${APP_ID}&app_key=${APP_KEY}`;
+    } else if (selectedCuisines != '') {
+      url = `https://api.edamam.com/api/recipes/v2?type=public&q=${search}&app_id=${APP_ID}&app_key=${APP_KEY}&cuisineType=${selectedCuisines}`;
+    } else if (selectedDiet != '') {
+      url = `https://api.edamam.com/api/recipes/v2?type=public&q=${search}&app_id=${APP_ID}&app_key=${APP_KEY}&diet=${selectedDiet}`;
+    } else if (selectedHealth != '') {
+      url = `https://api.edamam.com/api/recipes/v2?type=public&q=${search}&app_id=${APP_ID}&app_key=${APP_KEY}&health=${selectedHealth}`;
+    }
 
     try {
-      const response = await fetch(
-        `https://api.edamam.com/api/recipes/v2?type=public&q=${search}&app_id=${APP_ID}&app_key=${APP_KEY}`,
-        requestOptions,
-      );
+      const response = await fetch(url, requestOptions);
       const data = await response.json();
       setRecipes(data.hits);
       setLoading(false);
@@ -78,6 +92,7 @@ const Search = () => {
           onChangeText={setSearch}
           style={styles.input}
           placeholder="Search Here....."
+          placeholderTextColor="#9e9e9e"
         />
         {search != '' && (
           <TouchableOpacity
@@ -119,7 +134,7 @@ const Search = () => {
           </TouchableOpacity>
         )}
       />
-      {recipes.length > 0 && (
+      {recipes && recipes.length > 0 ? (
         <TouchableOpacity
           onPress={() => setShowModal(true)}
           style={styles.filterBtn}>
@@ -128,7 +143,7 @@ const Search = () => {
             source={require('../images/filter.png')}
           />
         </TouchableOpacity>
-      )}
+      ) : null}
       <Modal
         onBackdropPress={() => setShowModal(false)}
         onBackButtonPress={() => setShowModal(false)}
@@ -257,12 +272,17 @@ const Search = () => {
               }}
             />
           </View>
-          <TouchableOpacity style={styles.submitBtn}>
+          <TouchableOpacity
+            onPress={() => {
+              setShowModal(false);
+              searchRecipe();
+            }}
+            style={styles.submitBtn}>
             <Text style={styles.applyBtn}>{'Apply Filters'}</Text>
           </TouchableOpacity>
         </View>
       </Modal>
-      {/* {loading && <Loader />} */}
+      {loading && <Loader />}
     </View>
   );
 };

@@ -45,13 +45,13 @@ const Details = () => {
       <Animatable.Text animation={'slideInUp'} style={styles.calories}>
         {'Calories: '}
         <Animatable.Text animation={'slideInUp'} style={{color: 'orange'}}>
-          {route.params.data.recipe.calories}
+          {route.params.data.recipe.calories.toFixed(2)}
         </Animatable.Text>
       </Animatable.Text>
       <Animatable.Text animation={'slideInUp'} style={styles.calories}>
         {'Total Weight: '}
         <Animatable.Text animation={'slideInUp'} style={{color: 'orange'}}>
-          {route.params.data.recipe.totalWeight}
+          {route.params.data.recipe.totalWeight.toFixed(2)}
         </Animatable.Text>
       </Animatable.Text>
       <Animatable.Text animation={'slideInUp'} style={styles.calories}>

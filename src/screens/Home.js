@@ -93,6 +93,7 @@ const Home = () => {
             return (
               <AnimatedBtn
                 onPress={() => {
+                  setLoading(true);
                   navigation.navigate('RecipeByCategory', {
                     data: item.title,
                   });
@@ -121,18 +122,21 @@ const Home = () => {
         horizontal
         keyExtractor={item => item.recipe.uri}
         renderItem={({item}) => (
-          <AnimatedBtn
-            animation={'slideInUp'}
+          <TouchableOpacity
             style={styles.cartItems}
             onPress={() => navigation.navigate('Details', {data: item})}>
-            <Image
-              style={styles.recipeImage}
-              source={{uri: item.recipe.image}}
-            />
-            <View style={[styles.transparentView, {borderRadius: 20}]}>
-              <Text style={styles.recipeTitle}>{item.recipe.label}</Text>
-            </View>
-          </AnimatedBtn>
+            <Animatable.View
+              animation={'slideInUp'}
+              style={styles.cartItemsWrapper}>
+              <Image
+                style={styles.recipeImage}
+                source={{uri: item.recipe.image}}
+              />
+              <View style={[styles.transparentView, {borderRadius: 20}]}>
+                <Text style={styles.recipeTitle}>{item.recipe.label}</Text>
+              </View>
+            </Animatable.View>
+          </TouchableOpacity>
         )}
       />
       {loading && <Loader />}
